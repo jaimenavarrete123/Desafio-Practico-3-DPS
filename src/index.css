@@ -6,3 +6,50 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Ajustar tamanio de imagen de usuario*/
+
+.user-image {
+  width: 60px;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+}
+
+.user-nav {
+  display: flex;
+  align-items: center;
+}
+
+/* Activar el cursor pointer en los items*/
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+/* Cambiar el color de los enlaces*/
+
+.navbar-nav a {
+  color: #505050;
+}
+
+/* Cambiar el size de la imagen de usuario principal*/
+
+.container .main-user-image {
+  width: 200px;
+}
+
+/* Ordenar la informacion del usuario */
+
+.container .user-info {
+  display: flex;
+}
+
+.container .user-name {
+  border: 2px solid #007BFF;
+  color: #F2F2F2;
+  margin-right: 3em;
+  text-align: center;
+}
+
+
