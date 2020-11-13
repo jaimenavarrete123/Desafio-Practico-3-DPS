@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import Swal from 'sweetalert2';
 
@@ -7,9 +7,6 @@ import { db } from './../../firebase';
 import { UserContext } from './../../Context/UserContext';
 
 function Sucursales() {
-    // const [Sucursales, setSucursales] = useState([]);
-    // const [currentId, setCurrentId] = useState("");
-
     let { Sucursales } = useContext(UserContext);
     const [currentId, setCurrentId] = useState("");
 
@@ -18,18 +15,6 @@ function Sucursales() {
     const [empleados, setEmpleados] = useState("");
 
     const sucursal = { nombre, ganancias, empleados };
-
-    // const getSucursales = async () => {
-    //     await db.collection("Sucursales").onSnapshot((querySnapshot) => {
-    //         const docs = [];
-            
-    //         querySnapshot.forEach((doc) => {
-    //             docs.push({ ...doc.data(), id: doc.id });
-    //         });
-            
-    //         setSucursales(docs);
-    //     });
-    // };
 
     const selectSucursal = id => {
         const findSucursal = Sucursales.filter(sucursal => sucursal.id == id);
@@ -113,7 +98,7 @@ function Sucursales() {
 
     return (
         <div className="container">
-            <h2 className="p-2 mt-4 mb-4 text-center">Sucursales</h2>
+            <h1 className="p-2 mt-4 mb-4 text-center">SUCURSALES</h1>
             <div className="row">
 
                 {/* Formulario para agregar sucursales */}

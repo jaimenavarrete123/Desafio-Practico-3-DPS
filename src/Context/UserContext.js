@@ -79,7 +79,7 @@ function UserProvider({children}) {
     }, []);
 
     return (
-        <Provider value={{user, setUser, handleLogOut, load, Sucursales, SucursalesSelect}}>
+        <Provider value={{user, setUser, handleLogOut, load, Sucursales, SucursalesSelect, setSucursalesSelect}}>
             {children}
         </Provider>
     );

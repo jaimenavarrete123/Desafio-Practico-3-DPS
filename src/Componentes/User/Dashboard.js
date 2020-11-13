@@ -8,7 +8,7 @@ import { UserContext } from './../../Context/UserContext';
 
 function Dashboard() {
 
-    let { Sucursales, SucursalesSelect } = useContext(UserContext);
+    let { Sucursales, SucursalesSelect, setSucursalesSelect } = useContext(UserContext);
 
     const [currentId, setCurrentId] = useState("");
 
@@ -58,15 +58,49 @@ function Dashboard() {
         })
     };
 
+    const deleteAllSucursaleslSelect = () => {
+        Swal.fire({
+            title: '¿Está seguro?',
+            text: "Se quitarán todas las sucursales del cálculo",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                
+                // SucursalesSelect.forEach(sucursal => {
+                //     db.collection("Seleccionadas").doc(sucursal.id).delete()
+                // })
+
+                await db.collection("Seleccionadas").get()
+                .then((querySnapshot) => {                    
+                    querySnapshot.forEach((doc) => {
+                        doc.ref.delete();
+                    });
+                })
+                .then(() => {
+                    setSucursalesSelect([]);
+                    Swal.fire('Sucursales quitadas', 'Las sucursales se quitaron correctamente', 'success')
+                })
+                .catch(error => {
+                    Swal.fire('Error', error.message, 'error')
+                });
+            }
+        })
+    };
+
     return (
         <div className="container">
-            <h2 className="p-2 mt-4 mb-4 text-center">Dashboard</h2>
-            <div className="row mb-5">
+            <h1 className="p-2 mt-4 mb-4 text-center">DASHBOARD</h1>
+            <div className="row mb-5 justify-content-center">
 
                 {/* Formulario para agregar sucursales */}
 
                 <div id="formSucursal" className="col-md-3">
-                    <div className="card mb-4">
+                    <div className="card">
                         <div className="card-header">
                             <h4>Agregar sucursal</h4>
                         </div>
@@ -86,37 +120,9 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-
-                {/* Tabla para visualizar sucursales */}
-
-                <div id="listaRegistros" className="col-md-9">
-                    <table id="tablaClientes" className="table text-center">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Ganancias</th>
-                                <th scope="col">Empleados</th>
-                                <th scope="col">Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                SucursalesSelect.map(sucursal => (                                    
-                                    <tr key={sucursal.id}>
-                                        <td>{sucursal.id}</td>
-                                        <td>{sucursal.nombre}</td>
-                                        <td>${sucursal.ganancias}</td>
-                                        <td>{sucursal.empleados}</td>
-                                        <td><button className="btn btn-danger" onClick={() => deleteSucursalSelect(sucursal.idAdd)}>Eliminar</button></td>
-                                    </tr>                                    
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
             </div>
             <h2 className="p-2 mt-4 mb-4 text-center">Resultados</h2>
+            <button className="btn btn-danger mb-3" onClick={() => deleteAllSucursaleslSelect()}>Quitar todas las sucursales</button>
             <div className="row">
                 <table id="tablaClientes" className="table text-center table-dark">
                     <thead>
@@ -124,7 +130,9 @@ function Dashboard() {
                             <th scope="col">ID</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Ganancias</th>
+                            <th scope="col">Empleados</th>
                             <th scope="col">Resultado</th>
+                            <th scope="col">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -132,19 +140,27 @@ function Dashboard() {
                             SucursalesSelect.length === 0 
                             ?
                                 <tr className="bg-light text-dark">
-                                    <td colSpan="4"><strong>DEBE AGREGAR SUCURSALES PARA EL CÁLCULO</strong></td>
+                                    <td colSpan="6"><strong>DEBE AGREGAR SUCURSALES PARA EL CÁLCULO</strong></td>
                                 </tr>
                             :
                                 SucursalesSelect.map(sucursal => (                                    
                                     <tr key={sucursal.id} className={sucursal.ganancias >= 30000 ? "bg-success" : "bg-light text-dark"}>
                                         <td>{sucursal.id}</td>
                                         <td>{sucursal.nombre}</td>
-                                        <td>${sucursal.ganancias}</td>
-                                        <td>
-                                            {sucursal.ganancias >= 30000 ? "Excelente trabajo" : "Buen trabajo"}
+                                        <td><strong>${sucursal.ganancias}</strong></td>
+                                        <td>{sucursal.empleados}</td>
+                                        <td className="font-weight-bold">
+                                            {sucursal.ganancias >= 30000 ? "EXCELENTE TRABAJO" : "BUEN TRABAJO"}
                                         </td>
+                                        <td><button className="btn btn-danger" onClick={() => deleteSucursalSelect(sucursal.idAdd)}>Eliminar</button></td>
                                     </tr>                                    
                                 ))
+                        }
+                        {
+                            SucursalesSelect.length !== 0 &&
+                            <tr>
+                                <td colSpan="6" className="font-weight-bold" style={{fontSize: 1.5 + 'em'}}>TOTAL: ${ SucursalesSelect.reduce((total, sucursal) => total + Number(sucursal.ganancias), 0) }</td>
+                            </tr>
                         }
                     </tbody>
                 </table>

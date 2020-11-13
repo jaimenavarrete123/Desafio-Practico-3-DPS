@@ -12,9 +12,9 @@ function Navbar() {
         <nav className="navbar navbar-expand-lg navbar-primary bg-light">
             <div className="container">
                 <div className="navbar-brand">
-                    <a href="/dashboard">
+                    <Link to="/dashboard">
                         Tiendas
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="collapse navbar-collapse" id="navbarNav">
@@ -41,7 +41,7 @@ function Navbar() {
                                         <p>Saludos <strong>{(user.displayName) ? user.displayName : 'usuario anónimo'}</strong></p>
                                     </li>
                                     <li className="nav-item dropdown">
-                                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <img className="align-self-start img-thumbnail rounded-circle user-image" src={(user.photoURL) ? user.photoURL : './img/userImage.png'} />
                                         </a>
                                         <div className="dropdown-menu p-3" aria-labelledby="navbarDropdownMenuLink">
