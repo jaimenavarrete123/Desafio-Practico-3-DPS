@@ -35,6 +35,9 @@ function UserProvider({children}) {
                 docs.push({ ...doc.data(), idAdd: doc.id });
             });
             
+            // Funcion para ordenar
+            docs.sort((a, b) => b.ganancias - a.ganancias);
+            
             setSucursalesSelect(docs);
         });
     };

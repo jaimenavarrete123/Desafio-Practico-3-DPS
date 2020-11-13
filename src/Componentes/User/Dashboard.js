@@ -70,10 +70,6 @@ function Dashboard() {
             cancelButtonText: 'Cancelar'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                
-                // SucursalesSelect.forEach(sucursal => {
-                //     db.collection("Seleccionadas").doc(sucursal.id).delete()
-                // })
 
                 await db.collection("Seleccionadas").get()
                 .then((querySnapshot) => {                    
@@ -122,7 +118,12 @@ function Dashboard() {
                 </div>
             </div>
             <h2 className="p-2 mt-4 mb-4 text-center">Resultados</h2>
-            <button className="btn btn-danger mb-3" onClick={() => deleteAllSucursaleslSelect()}>Quitar todas las sucursales</button>
+            
+            {
+                SucursalesSelect.length !== 0 &&
+                <button className="btn btn-danger mb-3" onClick={() => deleteAllSucursaleslSelect()}>Quitar todas las sucursales</button>
+            }
+
             <div className="row">
                 <table id="tablaClientes" className="table text-center table-dark">
                     <thead>

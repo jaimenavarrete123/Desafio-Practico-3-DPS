@@ -62,9 +62,41 @@ function Sucursales() {
             if(sucursalObject.nombre !== "" && sucursalObject.ganancias !== "" && sucursalObject.empleados !== "") {
                 if(sucursalObject.ganancias >= 1000 && sucursalObject.empleados >= 10) {
                     if (currentId === "") {
+                        let empleados = sucursalObject.empleados,
+                            complete = false;
+
+                        while(empleados > 20 && !complete) {
+                            complete = true;
+
+                            await db.collection("Sucursales").get()
+                            .then((querySnapshot) => {     
+                                querySnapshot.forEach((doc) => {
+                                    if(doc.data().empleados < 20) {
+                                        complete = false;
+    
+                                        if(empleados > 20) {
+                                            let data = doc.data();
+                                            data.empleados++;
+    
+                                            doc.ref.update(data);
+    
+                                            empleados--;
+                                        }
+                                        else {
+                                            complete = true;
+                                        }
+                                    }
+                                });
+                            })
+                            .then(() => {
+                                sucursalObject.empleados = empleados;
+                            });
+                        }
+
                         await db.collection("Sucursales").doc().set(sucursalObject)
                         .then(() => {
                             Swal.fire('Sucursal agregada', 'La sucursal se agregó correctamente', 'success')
+
                             clearInfo();
                         })
                         .catch(error => {
@@ -134,7 +166,7 @@ function Sucursales() {
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Ganancias ($)</th>
+                                <th scope="col">Ganancias</th>
                                 <th scope="col">Empleados</th>
                                 <th scope="col">Opciones</th>
                             </tr>
@@ -145,7 +177,7 @@ function Sucursales() {
                                     <tr key={sucursal.id}>
                                         <td>{sucursal.id}</td>
                                         <td>{sucursal.nombre}</td>
-                                        <td>{sucursal.ganancias}</td>
+                                        <td>${sucursal.ganancias}</td>
                                         <td>{sucursal.empleados}</td>
                                         <td>
                                             {
