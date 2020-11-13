@@ -36,7 +36,6 @@ function UserProvider({children}) {
             });
             
             setSucursalesSelect(docs);
-            console.log(docs);
         });
     };
 

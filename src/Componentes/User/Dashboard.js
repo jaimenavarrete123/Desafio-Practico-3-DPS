@@ -61,7 +61,7 @@ function Dashboard() {
     return (
         <div className="container">
             <h2 className="p-2 mt-4 mb-4 text-center">Dashboard</h2>
-            <div className="row">
+            <div className="row mb-5">
 
                 {/* Formulario para agregar sucursales */}
 
@@ -95,7 +95,7 @@ function Dashboard() {
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Ganancias ($)</th>
+                                <th scope="col">Ganancias</th>
                                 <th scope="col">Empleados</th>
                                 <th scope="col">Opciones</th>
                             </tr>
@@ -106,7 +106,7 @@ function Dashboard() {
                                     <tr key={sucursal.id}>
                                         <td>{sucursal.id}</td>
                                         <td>{sucursal.nombre}</td>
-                                        <td>{sucursal.ganancias}</td>
+                                        <td>${sucursal.ganancias}</td>
                                         <td>{sucursal.empleados}</td>
                                         <td><button className="btn btn-danger" onClick={() => deleteSucursalSelect(sucursal.idAdd)}>Eliminar</button></td>
                                     </tr>                                    
@@ -115,6 +115,39 @@ function Dashboard() {
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <h2 className="p-2 mt-4 mb-4 text-center">Resultados</h2>
+            <div className="row">
+                <table id="tablaClientes" className="table text-center table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Ganancias</th>
+                            <th scope="col">Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            SucursalesSelect.length === 0 
+                            ?
+                                <tr className="bg-light text-dark">
+                                    <td colSpan="4"><strong>DEBE AGREGAR SUCURSALES PARA EL CÁLCULO</strong></td>
+                                </tr>
+                            :
+                                SucursalesSelect.map(sucursal => (                                    
+                                    <tr key={sucursal.id} className={sucursal.ganancias >= 30000 ? "bg-success" : "bg-light text-dark"}>
+                                        <td>{sucursal.id}</td>
+                                        <td>{sucursal.nombre}</td>
+                                        <td>${sucursal.ganancias}</td>
+                                        <td>
+                                            {sucursal.ganancias >= 30000 ? "Excelente trabajo" : "Buen trabajo"}
+                                        </td>
+                                    </tr>                                    
+                                ))
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     );
