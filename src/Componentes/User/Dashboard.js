@@ -138,29 +138,59 @@ function Dashboard() {
                     </thead>
                     <tbody>
                         {
-                            SucursalesSelect.length === 0 
-                            ?
-                                <tr className="bg-light text-dark">
-                                    <td colSpan="6"><strong>DEBE AGREGAR SUCURSALES PARA EL CÁLCULO</strong></td>
-                                </tr>
-                            :
-                                SucursalesSelect.map(sucursal => (                                    
-                                    <tr key={sucursal.id} className={sucursal.ganancias >= 30000 ? "bg-success" : "bg-light text-dark"}>
-                                        <td>{sucursal.id}</td>
-                                        <td>{sucursal.nombre}</td>
-                                        <td><strong>${sucursal.ganancias}</strong></td>
-                                        <td>{sucursal.empleados}</td>
-                                        <td className="font-weight-bold">
-                                            {sucursal.ganancias >= 30000 ? "EXCELENTE TRABAJO" : "BUEN TRABAJO"}
-                                        </td>
-                                        <td><button className="btn btn-danger" onClick={() => deleteSucursalSelect(sucursal.idAdd)}>Eliminar</button></td>
-                                    </tr>                                    
-                                ))
+                            SucursalesSelect.length === 0 &&
+                            <tr className="bg-light text-dark">
+                                <td colSpan="6"><strong>DEBE AGREGAR SUCURSALES PARA EL CÁLCULO</strong></td>
+                            </tr>
                         }
                         {
                             SucursalesSelect.length !== 0 &&
                             <tr>
-                                <td colSpan="6" className="font-weight-bold" style={{fontSize: 1.5 + 'em'}}>TOTAL: ${ SucursalesSelect.reduce((total, sucursal) => total + Number(sucursal.ganancias), 0) }</td>
+                                <td colSpan="6"><strong>Sucursales que ganan mas de $25000 son: {SucursalesSelect.reduce((count, sucursal) => sucursal.ganancias > 25000 ? ++count : count, 0)} </strong></td>
+                            </tr>
+                        }
+                        {
+                            SucursalesSelect.map(sucursal => (                                          
+                                sucursal.ganancias > 25000 &&
+
+                                <tr key={sucursal.id} className={sucursal.ganancias >= 30000 ? "bg-success" : "bg-light text-dark"}>
+                                    <td>{sucursal.id}</td>
+                                    <td>{sucursal.nombre}</td>
+                                    <td><strong>${sucursal.ganancias}</strong></td>
+                                    <td>{sucursal.empleados}</td>
+                                    <td className="font-weight-bold">
+                                        {sucursal.ganancias >= 30000 ? "EXCELENTE TRABAJO" : "BUEN TRABAJO"}
+                                    </td>
+                                    <td><button className="btn btn-danger" onClick={() => deleteSucursalSelect(sucursal.idAdd)}>Eliminar</button></td>
+                                </tr>                                    
+                            ))
+                        }
+                        {
+                            SucursalesSelect.length !== 0 &&
+                            <tr>
+                                <td colSpan="6"><strong>La cantidad de sucursales que ganan entre $1000 y $25000 es de: {SucursalesSelect.reduce((count, sucursal) => sucursal.ganancias <= 25000 ? ++count : count, 0)} </strong></td>
+                            </tr>
+                        }
+                        {
+                            SucursalesSelect.map(sucursal => (                                          
+                                sucursal.ganancias <= 25000 &&
+
+                                <tr key={sucursal.id} className={sucursal.ganancias >= 30000 ? "bg-success" : "bg-light text-dark"}>
+                                    <td>{sucursal.id}</td>
+                                    <td>{sucursal.nombre}</td>
+                                    <td><strong>${sucursal.ganancias}</strong></td>
+                                    <td>{sucursal.empleados}</td>
+                                    <td className="font-weight-bold">
+                                        {sucursal.ganancias >= 30000 ? "EXCELENTE TRABAJO" : "BUEN TRABAJO"}
+                                    </td>
+                                    <td><button className="btn btn-danger" onClick={() => deleteSucursalSelect(sucursal.idAdd)}>Eliminar</button></td>
+                                </tr>                                    
+                            ))
+                        }
+                        {
+                            SucursalesSelect.length !== 0 &&
+                            <tr>
+                                <td colSpan="6" className="font-weight-bold" style={{fontSize: 1.5 + 'em'}}>GANANCIA TOTAL: ${ SucursalesSelect.reduce((total, sucursal) => total + Number(sucursal.ganancias), 0) }</td>
                             </tr>
                         }
                     </tbody>
