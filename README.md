@@ -1,7 +1,7 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).<br />
-Link de la página: [Desafio Practico 1](https://desafiopractico3.firebaseapp.com/).
+Link de la página: [Desafio Practico 3](https://desafiopractico3.firebaseapp.com/).
 
 ## Available Scripts
 
